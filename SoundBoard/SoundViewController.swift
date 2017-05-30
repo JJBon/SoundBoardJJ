@@ -20,7 +20,7 @@ class SoundViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        print("before setting up recorded")
         
         func setupRecorder() {
             
@@ -62,6 +62,7 @@ class SoundViewController: UIViewController {
                 print(error)
             }
         }
+        setupRecorder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,6 +71,8 @@ class SoundViewController: UIViewController {
     }
     
     @IBAction func recordTapped(_ sender: Any) {
+        
+        print("recordActive")
         
         if audioRecorder!.isRecording {
         // Stop the recording
@@ -80,6 +83,9 @@ class SoundViewController: UIViewController {
         } else {
             // Start the recording 
             audioRecorder?.record()
+            
+            // Change button tittle to Stop 
+            recordButton.setTitle("Stop", for: .normal)
         }
     
     }
