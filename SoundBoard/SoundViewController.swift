@@ -45,6 +45,9 @@ class SoundViewController: UIViewController {
                 
                 let pathComponents =  [basePath, "audio.m4a"]
                 let audioURL = NSURL.fileURL(withPathComponents: pathComponents)!
+                print("############")
+                print(audioURL)
+                print("###########")
                 
                 //Create setting for audio Recorder
                 
