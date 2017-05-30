@@ -13,6 +13,8 @@ class SoundViewController: UIViewController {
     
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var addButton: UIButton!
     
     var audioRecorder : AVAudioRecorder?
     var audioPlayer : AVAudioPlayer?
@@ -20,53 +22,53 @@ class SoundViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("before setting up recorded")
-        
-        func setupRecorder() {
-            
-            print("setupRecorder")
-            
-            do {
-                
-                // Create an audio session , need for error handling
-                
-                
-                let session = AVAudioSession.sharedInstance()
-                try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-                try session.overrideOutputAudioPort(.speaker)
-                try session.setActive(true)
-                
-                // Create URL for audio file
-                // basePath da un array , sale del primer elemento un string que es el que lleva al document directory
-                
-                let basePath : String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-                
-                // give name to file and attach it to directory
-                
-                let pathComponents =  [basePath, "audio.m4a"]
-                audioURL = NSURL.fileURL(withPathComponents: pathComponents)!
-                print("############")
-                print(audioURL)
-                print("###########")
-                
-                //Create setting for audio Recorder
-                
-                var settings : [String:AnyObject] =  [:]
-                settings[AVFormatIDKey] = Int(kAudioFormatMPEG4AAC) as AnyObject
-                settings[AVSampleRateKey] = 44100.0 as AnyObject
-                settings[AVNumberOfChannelsKey] = 2 as AnyObject
-                
-                // Create audioRecorder object
-                // Url = Where do you want to save recording
-                
-                audioRecorder = try AVAudioRecorder(url: audioURL!, settings: settings)
-                audioRecorder!.prepareToRecord()
-            } catch  let error as NSError {
-                print(error)
-            }
-        }
         setupRecorder()
+        playButton.isEnabled = false
+        
+    }
+    
+    func setupRecorder() {
+        
+        print("setupRecorder")
+        
+        do {
+            
+            // Create an audio session , need for error handling
+            
+            
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try session.overrideOutputAudioPort(.speaker)
+            try session.setActive(true)
+            
+            // Create URL for audio file
+            // basePath da un array , sale del primer elemento un string que es el que lleva al document directory
+            
+            let basePath : String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            
+            // give name to file and attach it to directory
+            
+            let pathComponents =  [basePath, "audio.m4a"]
+            audioURL = NSURL.fileURL(withPathComponents: pathComponents)!
+            print("############")
+            print(audioURL)
+            print("###########")
+            
+            //Create setting for audio Recorder
+            
+            var settings : [String:AnyObject] =  [:]
+            settings[AVFormatIDKey] = Int(kAudioFormatMPEG4AAC) as AnyObject
+            settings[AVSampleRateKey] = 44100.0 as AnyObject
+            settings[AVNumberOfChannelsKey] = 2 as AnyObject
+            
+            // Create audioRecorder object
+            // Url = Where do you want to save recording
+            
+            audioRecorder = try AVAudioRecorder(url: audioURL!, settings: settings)
+            audioRecorder!.prepareToRecord()
+        } catch  let error as NSError {
+            print(error)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,6 +86,7 @@ class SoundViewController: UIViewController {
         
         // Change button title to Record
             recordButton.setTitle("Record", for: .normal)
+            playButton.isEnabled = true 
         } else {
             // Start the recording 
             audioRecorder?.record()
