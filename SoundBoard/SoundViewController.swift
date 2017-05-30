@@ -24,6 +24,8 @@ class SoundViewController: UIViewController {
         
         func setupRecorder() {
             
+            print("setupRecorder")
+            
             do {
                 
                 // Create an audio session , need for error handling
@@ -68,6 +70,18 @@ class SoundViewController: UIViewController {
     }
     
     @IBAction func recordTapped(_ sender: Any) {
+        
+        if audioRecorder!.isRecording {
+        // Stop the recording
+            audioRecorder?.stop()
+        
+        // Change button title to Record
+            recordButton.setTitle("Record", for: .normal)
+        } else {
+            // Start the recording 
+            audioRecorder?.record()
+        }
+    
     }
     
     @IBAction func playTapped(_ sender: Any) {
