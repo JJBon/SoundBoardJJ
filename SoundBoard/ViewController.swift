@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
     var sounds : [Sound] =  []
-    
+    var audioPlayer : AVAudioPlayer?
   
     
     
@@ -44,6 +45,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.textLabel?.text = sound.name
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sound = sounds[indexPath.row]
+        do {
+            audioPlayer = try AVAudioPlayer(data: sound.audio! as Data)
+            audioPlayer?.play()
+        } catch {}
     }
     
 
